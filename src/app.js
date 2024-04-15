@@ -5,6 +5,7 @@ const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const mongoSanitize = require("express-mongo-sanitize");
 const userRouter = require("./routers/userRouter");
+const { errorResponse } = require("./controllers/responseController");
 
 const app = express();
 
@@ -34,9 +35,7 @@ app.use((err, req, res, next) => {
 
 // Server Error handler
 app.use((err, req, res, next) => {
-  return res
-    .status(err.status || 500)
-    .json({ success: false, message: err.message });
+  return errorResponse(res, { statusCode: err.status, message: err.message });
 });
 
 module.exports = app;
