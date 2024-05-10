@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const { defaultImagePath } = require("../secret");
 
 const userSchema = new mongoose.Schema(
   {
-    fullName: {
+    name: {
       type: String,
       required: [true, "User name is required"],
       trim: true,
@@ -20,25 +20,24 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: true,
+      required: [true, "Password is required"],
+      minlength: [6, "Password must be at least 6 characters long"],
       set: (v) => bcrypt.hashSync(v, bcrypt.genSaltSync(10)),
     },
     image: {
       type: String,
-      default: defaultImagePath,
+      default: "",
     },
     address: {
       type: String,
+      required: [true, "Address is required"],
+      minlength: [3, "Address must be at least 3 characters long"],
     },
     role: {
       type: String,
       default: "consumer",
     },
-    isBanner: {
-      type: Boolean,
-      default: false,
-    },
-    phoneNumber: {
+    phone: {
       type: String,
       required: true,
     },

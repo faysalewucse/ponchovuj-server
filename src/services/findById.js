@@ -3,9 +3,7 @@ const mongoose = require("mongoose");
 
 const findById = async (Model, id, options = {}) => {
   try {
-    const id = req.query.id;
-
-    const result = await Model.find(id, options);
+    const result = await Model.findById(id, options);
 
     if (!result) {
       throw createHttpError(404, `No ${Model.modelName} found!`);

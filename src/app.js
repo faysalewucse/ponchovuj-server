@@ -22,15 +22,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(mongoSanitize());
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
-
 app.use("/api/v1/users", userRouter);
 
 // Client error handler
 app.use((err, req, res, next) => {
-  next(createError(400, "Route not found!"));
+  next(createError(400, err));
 });
 
 // Server Error handler
